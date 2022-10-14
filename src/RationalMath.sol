@@ -5,7 +5,8 @@ pragma solidity ^0.8.4;
 /// @author bogdoslav
 
 struct Rational {
-    // TODO bool positive;
+    // TODO add sign
+    //bool positive;
     uint numerator;
     uint denominator;
 }

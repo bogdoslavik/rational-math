@@ -1,0 +1,14 @@
+{
+  "name": "rational-math",
+  "version": "1.0.0",
+  "description": "Solidity Rational Math Library",
+  "main": "index.js",
+  "repository": "git@github.com:bogdoslavik/rational-math.git",
+  "author": "bogdoslavik <bogdoslavik@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "watch": "forge test --watch"
+  }
+}

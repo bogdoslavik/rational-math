@@ -3,6 +3,7 @@
 pragma solidity ^0.8.4;
 
 /// @author bogdoslav
+// TODO add doc comments
 
 struct Rational {
     // TODO add sign
@@ -58,17 +59,14 @@ library RationalMath {
     }
 
     function commonDivisor(uint a, uint b) internal pure returns (uint small) {
-        uint large;
-        (large, small) = a > b ? (a, b) : (b, a);
-        if (small == 0) return 1;
-
-        uint modulo = large % small;
-
-        while (modulo != 0) {
-            large = small;
-            small = modulo;
-            modulo = large % small;
+        while (a != 0 && b != 0) {
+            if (a > b) {
+                a = a % b;
+            } else {
+                b = b % a;
+            }
         }
+        return a + b;
     }
 
 }

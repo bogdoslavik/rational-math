@@ -71,5 +71,15 @@ contract RationalMathTest is Test {
         assertEq(d, c);
     }
 
+    function testReduce_primeX(uint128 c) public {
+        if (c == 0) c = 1;
+        uint a = 18121667;
+        uint b = 1002299;
+        Rational memory r = RationalMath.from(a*c, b*c);
+        r = r.reduce();
+        assertEq(r.numerator, a);
+        assertEq(r.denominator, b);
+    }
+
     //TODO add, sub, mul, div
 }

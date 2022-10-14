@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.4;
+
+/// @author bogdoslav
 
 struct Rational {
     // TODO bool positive;
@@ -46,10 +49,11 @@ library RationalMath {
         if (r.numerator == 0) {
             result.numerator = 0;
             result.denominator = 1;
+        } else {
+            uint divisor = commonDivisor(r.numerator, r.denominator);
+            result.numerator = r.numerator / divisor;
+            result.denominator = r.denominator / divisor;
         }
-        uint divisor = commonDivisor(r.numerator, r.denominator);
-        result.numerator = r.numerator / divisor;
-        result.denominator = r.denominator / divisor;
     }
 
     function commonDivisor(uint a, uint b) internal pure returns (uint small) {
@@ -66,9 +70,4 @@ library RationalMath {
         }
     }
 
-
-
-
-
-
-    }
+}

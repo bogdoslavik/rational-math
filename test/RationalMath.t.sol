@@ -31,6 +31,8 @@ contract RationalMathTest is Test {
     }
 
     function testCommonDivisor(uint a, uint b) public {
+        if (a == 0) a = 1;
+        if (b == 0) b = 1;
         uint d = RationalMath.commonDivisor(a, b);
         assertEq(a % d, 0);
         assertEq(b % d, 0);

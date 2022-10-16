@@ -22,9 +22,20 @@ library RationalMath {
         result.denominator = denominator;
     }
 
-    function from(uint numerator) internal pure returns (Rational memory result) {
-        result.numerator = numerator;
+    function fromFixed(uint integer, uint8 decimals) internal pure returns (Rational memory result) {
+        if (decimals == 0) revert ZeroDenominator();
+        result.numerator = integer;
+        result.denominator = 10**decimals;
+    }
+
+    function from(uint integer) internal pure returns (Rational memory result) {
+        result.numerator = integer;
         result.denominator = 1;
+    }
+
+    function from(Rational memory a) internal pure returns (Rational memory result) {
+        result.numerator = a.numerator;
+        result.denominator = a.denominator;
     }
 
     function add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
@@ -47,15 +58,20 @@ library RationalMath {
         result.denominator = a.denominator * b.numerator;
     }
 
-    function reduce(Rational memory r) internal pure returns (Rational memory result) {
+    function reduceIt(Rational memory r) internal pure {
         if (r.numerator == 0) {
-            result.numerator = 0;
-            result.denominator = 1;
+            r.denominator = 1;
         } else {
             uint divisor = commonDivisor(r.numerator, r.denominator);
-            result.numerator = r.numerator / divisor;
-            result.denominator = r.denominator / divisor;
+            r.numerator = r.numerator / divisor;
+            r.denominator = r.denominator / divisor;
         }
+    }
+
+    function reduce(Rational memory r) internal pure returns (Rational memory result) {
+        result.numerator = r.numerator;
+        result.denominator = r.denominator;
+        reduceIt(result);
     }
 
     function commonDivisor(uint a, uint b) internal pure returns (uint small) {

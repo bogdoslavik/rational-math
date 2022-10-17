@@ -1,11 +1,27 @@
 {
   "name": "rational-math",
-  "version": "1.0.0",
   "description": "Solidity Rational Math Library",
-  "main": "index.js",
-  "repository": "git@github.com:bogdoslavik/rational-math.git",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bogdoslavik/rational-math.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bogdoslavik/rational-math/issues"
+  },
   "author": "bogdoslavik <bogdoslavik@gmail.com>",
   "license": "MIT",
+  "files": [
+    "/src/*.sol"
+  ],
+  "keywords": [
+    "solidity",
+    "smart",
+    "contracts",
+    "rational",
+    "math",
+    "library"
+  ],
   "scripts": {
     "build": "forge build",
     "test": "forge test -vvv",

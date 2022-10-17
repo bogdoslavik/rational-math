@@ -16,6 +16,8 @@ error ZeroDenominator();
 
 library RationalMath {
 
+    // RATIONAL FROM
+
     function from(uint numerator, uint denominator) internal pure returns (Rational memory result) {
         if (denominator == 0) revert ZeroDenominator();
         result.numerator = numerator;
@@ -27,6 +29,7 @@ library RationalMath {
         result.denominator = 1;
     }
 
+    /// @notice creates new memory variable and copies value
     function from(Rational memory a) internal pure returns (Rational memory result) {
         result.numerator = a.numerator;
         result.denominator = a.denominator;
@@ -37,7 +40,7 @@ library RationalMath {
         result.denominator = 10**decimals;
     }
 
-    // Constants
+    // CONSTANTS
 
     function zero() internal pure returns (Rational memory result) {
         result.numerator = 0;
@@ -49,7 +52,7 @@ library RationalMath {
         result.denominator = 1;
     }
 
-    // Unsafe Math
+    // UNSAFE MATH
 
     function _add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator + b.numerator * a.denominator;
@@ -121,5 +124,22 @@ library RationalMath {
 
     function toFixed(Rational memory r, uint8 decimals) internal pure returns (uint) {
         return r.numerator * 10**decimals / r.denominator;
+    }
+
+    // DOWNGRADE
+
+    /// @return r most significant bit (1-based). For 0 returns 0
+    /// Idea got from Mikhail Vladimirov's article  from https://medium.com/coinmonks/math-in-solidity-part-3-percents-and-proportions-4db014e080b1
+    function mostSignificantBit(uint x) public pure returns (uint r) {
+        if (x == 0) return 0;
+        r = 0;
+        if (x >= 2**128) { x >>= 128; r += 128; }
+        if (x >= 2**64) { x >>= 64; r += 64; }
+        if (x >= 2**32) { x >>= 32; r += 32; }
+        if (x >= 2**16) { x >>= 16; r += 16; }
+        if (x >= 2**8) { x >>= 8; r += 8; }
+        if (x >= 2**4) { x >>= 4; r += 4; }
+        if (x >= 2**2) { x >>= 2; r += 2; }
+        if (x >= 2**1) { x >>= 1; r += 1; }
     }
 }

@@ -288,6 +288,52 @@ contract RationalMathTest is Test {
         assertEq(r.denominator, a.denominator);
     }
 
-    // TODO sub
+    // Downgrade
+
+    function testMostSignificantBitMax256() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint256).max);
+        assertEq(bit, 256);
+    }
+
+    function testMostSignificantBitMax128() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint128).max);
+        assertEq(bit, 128);
+    }
+
+    function testMostSignificantBitMax64() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint64).max);
+        assertEq(bit, 64);
+    }
+
+    function testMostSignificantBitMax32() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint32).max);
+        assertEq(bit, 32);
+    }
+
+    function testMostSignificantBitMax16() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint16).max);
+        assertEq(bit, 16);
+    }
+
+    function testMostSignificantBitMax8() public {
+        uint bit = RationalMath.mostSignificantBit(type(uint8).max);
+        assertEq(bit, 8);
+    }
+
+    function testMostSignificantBit1() public {
+        uint bit = RationalMath.mostSignificantBit(1);
+        assertEq(bit, 1);
+    }
+
+    function testMostSignificantBit0() public {
+        uint bit = RationalMath.mostSignificantBit(0);
+        assertEq(bit, 0);
+    }
+
+    function testMostSignificantBit(uint8 b) public {
+        uint num = 1 << b;
+        uint bit = RationalMath.mostSignificantBit(num);
+        assertEq(bit, 0);
+    }
 
 }

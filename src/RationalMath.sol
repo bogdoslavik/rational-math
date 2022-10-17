@@ -22,12 +22,6 @@ library RationalMath {
         result.denominator = denominator;
     }
 
-    function fromFixed(uint integer, uint8 decimals) internal pure returns (Rational memory result) {
-        if (decimals == 0) revert ZeroDenominator();
-        result.numerator = integer;
-        result.denominator = 10**decimals;
-    }
-
     function from(uint integer) internal pure returns (Rational memory result) {
         result.numerator = integer;
         result.denominator = 1;
@@ -38,28 +32,52 @@ library RationalMath {
         result.denominator = a.denominator;
     }
 
-    function add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+    function fromFixed(uint integer, uint8 decimals) internal pure returns (Rational memory result) {
+        result.numerator = integer;
+        result.denominator = 10**decimals;
+    }
+
+    // Constants
+
+    function zero() internal pure returns (Rational memory result) {
+        result.numerator = 0;
+        result.denominator = 1;
+    }
+
+    function one() internal pure returns (Rational memory result) {
+        result.numerator = 1;
+        result.denominator = 1;
+    }
+
+    // Unsafe Math
+
+    function _add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator + b.numerator * a.denominator;
         result.denominator = a.denominator * b.denominator;
     }
 
-    function sub(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+    function _sub(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator - b.numerator * a.denominator;
         result.denominator = a.denominator * b.denominator;
     }
 
-    function mul(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+    function _mul(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.numerator;
         result.denominator = a.denominator * b.denominator;
     }
 
-    function div(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+    function _div(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator;
         result.denominator = a.denominator * b.numerator;
     }
 
+    // REDUCING
+
     function reduceIt(Rational memory r) internal pure {
         if (r.numerator == 0) {
+            r.denominator = 1;
+        } if (r.numerator == r.denominator) {
+            r.numerator = 1;
             r.denominator = 1;
         } else {
             uint divisor = commonDivisor(r.numerator, r.denominator);
@@ -85,4 +103,23 @@ library RationalMath {
         return a + b;
     }
 
+    // COMPARISON
+
+    function _eq(Rational memory a, Rational memory b) internal pure returns (bool) {
+        return (a.numerator * b.denominator == b.numerator * a.denominator);
+    }
+
+    // TO
+
+    function toInt(Rational memory r) internal pure returns (uint) {
+        return r.numerator / r.denominator;
+    }
+
+    function toBase(Rational memory r, uint base) internal pure returns (uint) {
+        return r.numerator * base / r.denominator;
+    }
+
+    function toFixed(Rational memory r, uint8 decimals) internal pure returns (uint) {
+        return r.numerator * 10**decimals / r.denominator;
+    }
 }

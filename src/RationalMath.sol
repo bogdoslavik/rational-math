@@ -50,7 +50,7 @@ library RationalMath {
         result.denominator = 1;
     }
 
-    // UNSAFE MATH
+    // MATH
 
     function _add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator + b.numerator * a.denominator;
@@ -70,6 +70,28 @@ library RationalMath {
     function _div(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
         result.numerator = a.numerator * b.denominator;
         result.denominator = a.denominator * b.numerator;
+    }
+
+    // REDUCED MATH
+
+    function add(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+        result = _add(a, b);
+        reduceIt(result);
+    }
+
+    function sub(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+        result = _sub(a, b);
+        reduceIt(result);
+    }
+
+    function mul(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+        result = _mul(a, b);
+        reduceIt(result);
+    }
+
+    function div(Rational memory a, Rational memory b) internal pure returns (Rational memory result) {
+        result = _div(a, b);
+        reduceIt(result);
     }
 
     // REDUCING
@@ -108,6 +130,22 @@ library RationalMath {
 
     function _eq(Rational memory a, Rational memory b) internal pure returns (bool) {
         return (a.numerator * b.denominator == b.numerator * a.denominator);
+    }
+
+    function _gt(Rational memory a, Rational memory b) internal pure returns (bool) {
+        return (a.numerator * b.denominator > b.numerator * a.denominator);
+    }
+
+    function _lt(Rational memory a, Rational memory b) internal pure returns (bool) {
+        return (a.numerator * b.denominator < b.numerator * a.denominator);
+    }
+
+    function _gte(Rational memory a, Rational memory b) internal pure returns (bool) {
+        return (a.numerator * b.denominator >= b.numerator * a.denominator);
+    }
+
+    function _lte(Rational memory a, Rational memory b) internal pure returns (bool) {
+        return (a.numerator * b.denominator <= b.numerator * a.denominator);
     }
 
     // TO
